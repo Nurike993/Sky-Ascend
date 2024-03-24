@@ -114,6 +114,7 @@ class Game:
 
                 if self.pos.x < lowest.rect.right + 30 and self.pos.x > lowest.rect.left - 30:
                     if self.pos.y < lowest.rect.centery:
+                        # Добавляем плавное опускание на платформу.
                         self.pos.y = lowest.rect.top
                         self.vel.y = 0
 
@@ -231,14 +232,15 @@ class Game:
         self.gameDisplay.blit(text_surface,text_rect)
 
     def jump(self):
-            #Мы проверяем, стоит ли спрайт игрока на платформе или нет.
-            if self.vel.y>0:
-                self.img_pikachu.rect.y+=1
-                hits=pygame.sprite.spritecollide(self.img_pikachu,self.platforms,False)
-                self.img_pikachu.rect.y -= 1
-                if hits:
-                    self.jump_sound.play()
-                    self.vel.y = -10
+        # Мы проверяем, стоит ли спрайт игрока на платформе или нет.
+        if self.vel.y > 0:
+            # Увеличиваем область детекции столкновений на 5 пикселей вниз.
+            self.img_pikachu.rect.y += 5
+            hits = pygame.sprite.spritecollide(self.img_pikachu, self.platforms, False)
+            self.img_pikachu.rect.y -= 5
+            if hits:
+                self.jump_sound.play()
+                self.vel.y = -10
 
     def startScreen(self):
         self.gameDisplay.fill(orange)
