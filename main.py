@@ -19,6 +19,7 @@ class Game:
         self.img_pikachu=pygame.sprite.Sprite()
         self.img_pikachuR = pygame.image.load('data/pikachu_Right.png').convert_alpha()
         self.img_pikachuL = pygame.image.load('data/pikachu_Left.png').convert_alpha()
+        self.start_button_img = pygame.image.load('data/play.png').convert_alpha()
         self.img_pikachu.image = self.img_pikachuR
         self.img_pikachu.rect = self.img_pikachu.image.get_rect()
         self.img_pikachu.rect=self.img_pikachu.image.get_rect()
@@ -233,21 +234,20 @@ class Game:
     def jump(self):
         # Мы проверяем, стоит ли спрайт игрока на платформе или нет.
         if self.vel.y > 0:
-            # Увеличиваем область детекции столкновений на 5 пикселей вниз.
-            self.img_pikachu.rect.y += 7
+            # Увеличиваем область детекции столкновений на 10 пикселей вниз.
+            self.img_pikachu.rect.y += 10
             hits = pygame.sprite.spritecollide(self.img_pikachu, self.platforms, False)
-            self.img_pikachu.rect.y -= 7
+            self.img_pikachu.rect.y -= 10
             if hits:
                 self.jump_sound.play()
                 self.vel.y = -10
 
     def startScreen(self):
         background_img = pygame.image.load('data/background.png').convert()
-        start_button_img = pygame.image.load('data/play.png').convert_alpha()
         self.gameDisplay.blit(background_img, (0, 0))
-        self.messageToScreen("Sky Ascend", 60, black, display_width / 2, display_height / 2)
-        self.gameDisplay.blit(start_button_img,
-                              (display_width / 2 - start_button_img.get_width() / 2, display_height / 2 + 50))
+        self.messageToScreen("Sky Ascend", 60, black, display_width / 2, display_height / 2 - 50)
+        self.gameDisplay.blit(self.start_button_img, (display_width / 2 - self.start_button_img.get_width() / 2,
+                                                       display_height / 2))
         self.messageToScreen("High Score: " + str(self.highscore), 25, black, display_width / 2, 35)
         pygame.display.update()
         self.waitForStart()
@@ -260,10 +260,16 @@ class Game:
                 if event.type == pygame.QUIT:
                     waiting = False
                     self.gameExit = True
-                if event.type == pygame.KEYUP or event.type == pygame.MOUSEBUTTONUP:
-                    waiting = False
-                    self.gameOver = False
-                    self.gameExit = False
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    mouse_pos = pygame.mouse.get_pos()
+                    button_rect = pygame.Rect(display_width / 2 - self.start_button_img.get_width() / 2,
+                                              display_height / 2,
+                                              self.start_button_img.get_width(),
+                                              self.start_button_img.get_height())
+                    if button_rect.collidepoint(mouse_pos):
+                        waiting = False
+                        self.gameOver = False
+                        self.gameExit = False
         g.run()
 
     def gameOverScreen(self):
@@ -286,9 +292,9 @@ class Game:
                                  display_height / 2 - 30)
 
         pygame.display.update()
-        self.waitForPlayAgain()
+        self.waitForPlayAgain(play_again_button_img)
 
-    def waitForPlayAgain(self):
+    def waitForPlayAgain(self, play_again_button_img):
         waiting = True
         while waiting:
             self.clock.tick(fps)
@@ -296,25 +302,17 @@ class Game:
                 if event.type == pygame.QUIT:
                     waiting = False
                     self.gameExit = True
-                if event.type == pygame.KEYUP or event.type == pygame.MOUSEBUTTONUP:
-                    waiting = False
-                    self.gameOver = False
-                    self.gameExit = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_pos = pygame.mouse.get_pos()
+                    button_rect = play_again_button_img.get_rect(
+                        topleft=(display_width / 2 - play_again_button_img.get_width() / 2, display_height / 2 + 50))
+                    if button_rect.collidepoint(mouse_pos):
+                        waiting = False
+                        self.gameOver = False
+                        self.gameExit = False
         g.__init__()
         g.run()
 
-    def waitForKeyPress(self):
-        waiting=True
-        while waiting:
-            self.clock.tick(fps)
-            for event in pygame.event.get():
-                if event.type==pygame.QUIT:
-                    waiting=False
-                    self.gameExit=True
-                if event.type==pygame.KEYUP:
-                    waiting=False
-                    self.gameOver=False
-                    self.gameExit=False
 
 g=Game()
 g.startScreen()
