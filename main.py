@@ -220,8 +220,8 @@ class Game:
                     self.acc.x = player_Acc
                 if event.key == pygame.K_SPACE:
                     self.jump()
-                if event.key == pygame.K_p:
-                    self.pauseGame()  # Вызываем метод для паузы игры
+                if event.key == pygame.K_RETURN:
+                    self.pauseGame()  # Вызываем метод для паузы игры кнопкой Enter
 
     def pauseGame(self):
         paused = True
@@ -230,7 +230,7 @@ class Game:
         while paused:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
+                    if event.key == pygame.K_RETURN:
                         paused = False
                         self.messageToScreen("Paused", 40, black, display_width / 2, display_height / 2)
                         pygame.display.update()
