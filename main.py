@@ -119,9 +119,8 @@ class Game:
                         self.vel.y = 0
 
         #Прокрутка экрана вверх по мере продвижения игрока вверх. Уничтожение платформ, которые больше не требуются.
-        if self.img_pikachu.rect.top <= display_height/4:
-
-            if random.randrange(100) < 99:
+        if self.img_pikachu.rect.top <= display_height / 4:
+            if random.randrange(100) < 99 and len(self.clouds) < 10:  # Проверка количества облаков
                 Cloud(self)
 
             self.pos.y+=abs(self.vel.y)
