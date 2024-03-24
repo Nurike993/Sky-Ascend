@@ -242,31 +242,64 @@ class Game:
                 self.vel.y = -10
 
     def startScreen(self):
-        self.gameDisplay.fill(orange)
-        self.messageToScreen("Sky Ascend",40,white,display_width/2,display_height/2)
-        self.messageToScreen("Press any key to continue...", 25, white, display_width / 2 + 50, display_height / 2 + 50)
-        self.messageToScreen("Highest Score: " + str(self.highscore), 25, white, display_width / 2, 35)
+        background_img = pygame.image.load('data/background.png').convert()
+        start_button_img = pygame.image.load('data/play.png').convert_alpha()
+        self.gameDisplay.blit(background_img, (0, 0))
+        self.messageToScreen("Sky Ascend", 60, black, display_width / 2, display_height / 2)
+        self.gameDisplay.blit(start_button_img,
+                              (display_width / 2 - start_button_img.get_width() / 2, display_height / 2 + 50))
+        self.messageToScreen("High Score: " + str(self.highscore), 25, black, display_width / 2, 35)
         pygame.display.update()
-        self.waitForKeyPress()
+        self.waitForStart()
+
+    def waitForStart(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(fps)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting = False
+                    self.gameExit = True
+                if event.type == pygame.KEYUP or event.type == pygame.MOUSEBUTTONUP:
+                    waiting = False
+                    self.gameOver = False
+                    self.gameExit = False
         g.run()
 
-
     def gameOverScreen(self):
-        self.gameDisplay.fill(orange)
-        self.messageToScreen("OOPS!...GAME-OVER", 40, white, display_width / 2, 180)
-        self.messageToScreen("Score : "+(str)(self.score), 40, white, display_width / 2, display_height / 2-100)
-        self.messageToScreen("Press any key to play again...", 30, white, display_width / 2 + 50, display_height / 2 + 50)
+        background_img = pygame.image.load('data/background.png').convert()
+        play_again_button_img = pygame.image.load('data/play-again-on.png').convert_alpha()
+        self.gameDisplay.blit(background_img, (0, 0))
+        self.messageToScreen("OOPS!...GAME-OVER", 40, black, display_width / 2, 180)
+        self.messageToScreen("Score : " + (str)(self.score), 40, black, display_width / 2, display_height / 2 - 100)
+        self.gameDisplay.blit(play_again_button_img,
+                              (display_width / 2 - play_again_button_img.get_width() / 2, display_height / 2 + 50))
 
         if self.score > self.highscore:
             self.highscore = self.score
-            self.messageToScreen("CONGRATULATIONS!!!  NEW HIGHEST SCORE!", 30, white, display_width / 2, display_height / 2 - 30)
-            with open(path.join(self.dir, hs_file), 'w') as f:#Запись нового высокого балла в файл
+            self.messageToScreen("CONGRATULATIONS!!!  NEW HIGHEST SCORE!", 30, black, display_width / 2,
+                                 display_height / 2 - 30)
+            with open(path.join(self.dir, hs_file), 'w') as f:
                 f.write(str(self.score))
         else:
-                self.messageToScreen("Highest Score: " + str(self.highscore), 30, white, display_width / 2, display_height / 2 - 30)
+            self.messageToScreen("Highest Score: " + str(self.highscore), 30, black, display_width / 2,
+                                 display_height / 2 - 30)
 
         pygame.display.update()
-        self.waitForKeyPress()
+        self.waitForPlayAgain()
+
+    def waitForPlayAgain(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(fps)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting = False
+                    self.gameExit = True
+                if event.type == pygame.KEYUP or event.type == pygame.MOUSEBUTTONUP:
+                    waiting = False
+                    self.gameOver = False
+                    self.gameExit = False
         g.__init__()
         g.run()
 
