@@ -207,7 +207,7 @@ class Game:
             self.pos.y = display_height
 
     def checkEvent(self):
-        self.acc=vec(0,gravity)
+        self.acc = vec(0, gravity)
         self.jump()
 
         for event in pygame.event.get():
@@ -216,14 +216,24 @@ class Game:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     self.acc.x = -player_Acc
-
                 if event.key == pygame.K_RIGHT:
                     self.acc.x = player_Acc
-
                 if event.key == pygame.K_SPACE:
                     self.jump()
+                if event.key == pygame.K_p:
+                    self.pauseGame()  # Вызываем метод для паузы игры
 
-
+    def pauseGame(self):
+        paused = True
+        self.messageToScreen("Paused", 40, black, display_width / 2, display_height / 2)
+        pygame.display.update()
+        while paused:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_p:
+                        paused = False
+                        self.messageToScreen("Paused", 40, black, display_width / 2, display_height / 2)
+                        pygame.display.update()
     def messageToScreen(self,msg,size, color, x, y):
         font=pygame.font.Font(self.font_name,size)
         text_surface=font.render(msg,True,color)
