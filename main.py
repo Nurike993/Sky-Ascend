@@ -234,9 +234,9 @@ class Game:
         # Мы проверяем, стоит ли спрайт игрока на платформе или нет.
         if self.vel.y > 0:
             # Увеличиваем область детекции столкновений на 5 пикселей вниз.
-            self.img_pikachu.rect.y += 5
+            self.img_pikachu.rect.y += 7
             hits = pygame.sprite.spritecollide(self.img_pikachu, self.platforms, False)
-            self.img_pikachu.rect.y -= 5
+            self.img_pikachu.rect.y -= 7
             if hits:
                 self.jump_sound.play()
                 self.vel.y = -10
@@ -245,7 +245,7 @@ class Game:
         self.gameDisplay.fill(orange)
         self.messageToScreen("Sky Ascend",40,white,display_width/2,display_height/2)
         self.messageToScreen("Press any key to continue...", 25, white, display_width / 2 + 50, display_height / 2 + 50)
-        self.messageToScreen("High Score: " + str(self.highscore), 25, white, display_width / 2, 35)
+        self.messageToScreen("Highest Score: " + str(self.highscore), 25, white, display_width / 2, 35)
         pygame.display.update()
         self.waitForKeyPress()
         g.run()
@@ -259,11 +259,11 @@ class Game:
 
         if self.score > self.highscore:
             self.highscore = self.score
-            self.messageToScreen("CONGRATULATIONS!!!  NEW HIGH SCORE!", 30, white, display_width / 2, display_height / 2 - 30)
+            self.messageToScreen("CONGRATULATIONS!!!  NEW HIGHEST SCORE!", 30, white, display_width / 2, display_height / 2 - 30)
             with open(path.join(self.dir, hs_file), 'w') as f:#Запись нового высокого балла в файл
                 f.write(str(self.score))
         else:
-                self.messageToScreen("High Score: " + str(self.highscore), 30, white, display_width / 2, display_height / 2 - 30)
+                self.messageToScreen("Highest Score: " + str(self.highscore), 30, white, display_width / 2, display_height / 2 - 30)
 
         pygame.display.update()
         self.waitForKeyPress()
