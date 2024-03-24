@@ -76,12 +76,11 @@ class Game:
             self.cloud_images.append(pygame.image.load(path.join(cloud_dir,'cloud{}.png'.format(i))).convert())
 
         # загрузка звуков
-        self.sound_dir=path.join(self.dir,'data/sound')
+        self.sound_dir=path.join(self.dir,'data/sounds')
         self.jump_sound=pygame.mixer.Sound(path.join(self.sound_dir,'jump.wav'))
         self.jump_sound.set_volume(0.1)
-        self.pow_sound = pygame.mixer.Sound(path.join(self.sound_dir,'pow.mp3'))
+        self.pow_sound = pygame.mixer.Sound(path.join(self.sound_dir,'springshoes-arcade.mp3'))
         self.falling_sound = pygame.mixer.Sound(path.join(self.sound_dir,'falling-sound-arcade.mp3'))
-
     def updateScreen(self):
         if self.vel.x < 0:  #Движение влево
             self.img_pikachu.image = self.img_pikachuL
