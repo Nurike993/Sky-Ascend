@@ -56,7 +56,6 @@ class Game:
         self.font_name=pygame.font.match_font(Font_Name)
         self.load_data()
         self.enemies_timer=0
-
         for i in range(8):
             c=Cloud(self)
             c.rect.y+= 600
@@ -80,7 +79,8 @@ class Game:
         self.sound_dir=path.join(self.dir,'data/sound')
         self.jump_sound=pygame.mixer.Sound(path.join(self.sound_dir,'jump.wav'))
         self.jump_sound.set_volume(0.1)
-        self.pow_sound = pygame.mixer.Sound(path.join(self.sound_dir, 'pow.mp3'))
+        self.pow_sound = pygame.mixer.Sound(path.join(self.sound_dir,'pow.mp3'))
+        self.falling_sound = pygame.mixer.Sound(path.join(self.sound_dir,'falling-sound-arcade.mp3'))
 
     def updateScreen(self):
         if self.vel.x < 0:  #Движение влево
@@ -95,6 +95,7 @@ class Game:
         enemies_hits=pygame.sprite.spritecollide(self.img_pikachu,self.enemies,False, pygame.sprite.collide_mask)
         if enemies_hits:
             self.gameOver=True
+            self.falling_sound.play()
 
         #Обновление позии спрайтов
         self.img_pikachu.rect.midbottom = [self.pos.x, self.pos.y]
@@ -144,6 +145,7 @@ class Game:
          #Проверка окочание игры.
         if self.img_pikachu.rect.bottom>display_height:
             self.gameOver=True;
+            self.falling_sound.play()
             for sprite in self.platforms:
                 sprite.rect.y-=max(self.vel.y,10)
 
@@ -230,7 +232,6 @@ class Game:
         self.gameDisplay.blit(text_surface,text_rect)
 
     def jump(self):
-
             #Мы проверяем, стоит ли спрайт игрока на платформе или нет.
             if self.vel.y>0:
                 self.img_pikachu.rect.y+=1
