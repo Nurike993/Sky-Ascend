@@ -82,6 +82,7 @@ class Game:
         self.jump_sound.set_volume(0.1)
         self.pow_sound = pygame.mixer.Sound(path.join(self.sound_dir,'springshoes-arcade.mp3'))
         self.falling_sound = pygame.mixer.Sound(path.join(self.sound_dir,'falling-sound-arcade.mp3'))
+
     def updateScreen(self):
         if self.vel.x < 0:  #Движение влево
             self.img_pikachu.image = self.img_pikachuL
@@ -177,7 +178,6 @@ class Game:
         self.messageToScreen("SCORE : "+(str)(self.score), 25, black, display_width / 2 , 15)
         pygame.display.update()
 
-
     def run(self):
         self.score=0
         self.gameOver = False
@@ -234,6 +234,7 @@ class Game:
                         paused = False
                         self.messageToScreen("Paused", 40, black, display_width / 2, display_height / 2)
                         pygame.display.update()
+
     def messageToScreen(self,msg,size, color, x, y):
         font=pygame.font.Font(self.font_name,size)
         text_surface=font.render(msg,True,color)
