@@ -160,10 +160,6 @@ class Game:
         for x in self.powerups: #обновление позиции спрайтов
             x.update()
 
-        if self.score == 5000:
-            self.The_End()
-            return
-
         self.gameDisplay.fill(black)
         self.enemies.update()
         self.powerups.update()
@@ -333,44 +329,6 @@ class Game:
                         self.gameExit = False
         g.__init__()
         g.run()
-
-    def The_End(self):
-        play_button_img = pygame.image.load('data/play.png').convert_alpha()
-        background_img = pygame.image.load('data/background.png').convert()
-        self.gameDisplay.blit(background_img, (0, 0))
-        font = pygame.font.SysFont(None, 30)
-        congrats_text = font.render("CONGRATULATIONS!!!", True, (255, 255, 255))
-        completed_text = font.render("The game has been successfully completed!", True, (255, 255, 255))
-        congrats_text_rect = congrats_text.get_rect(
-            center=(display_width / 2, display_height / 4 + 130))
-        completed_text_rect = completed_text.get_rect(
-            center=(display_width / 2, display_height / 4 + 160))
-        self.gameDisplay.blit(congrats_text, congrats_text_rect)
-        self.gameDisplay.blit(completed_text, completed_text_rect)
-
-        button_x = display_width / 2 - play_button_img.get_width() / 2
-        button_y = display_height / 2
-        self.gameDisplay.blit(play_button_img, (button_x, button_y))
-        play_text_y = button_y + play_button_img.get_height() + 20
-        self.messageToScreen("Continue", 60, (255, 255, 255), display_width / 2, play_text_y)
-        pygame.display.update()
-        self.waitForPlayButton(play_button_img)
-
-    def waitForPlayButton(self, play_button_img):
-        waiting = True
-        while waiting:
-            self.clock.tick(fps)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    waiting = False
-                    self.gameExit = True
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    mouse_pos = pygame.mouse.get_pos()
-                    button_rect = play_button_img.get_rect(
-                        topleft=(display_width / 2 - play_button_img.get_width() / 2, display_height / 2))
-                    if button_rect.collidepoint(mouse_pos):
-                        waiting = False
-        self.run()  # Запускаем игру снова после нажатия кнопки "play"
 
 
 g=Game()
