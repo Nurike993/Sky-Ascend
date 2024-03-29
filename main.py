@@ -175,7 +175,7 @@ class Game:
 
         self.playerSprite.draw(self.gameDisplay)
         #Отображение счета
-        self.messageToScreen("SCORE : "+(str)(self.score), 25, black, display_width / 2 , 15)
+        self.messageToScreen("SCORE: "+(str)(self.score), 25, black, display_width / 2 , 15)
         pygame.display.update()
 
     def run(self):
@@ -254,12 +254,17 @@ class Game:
                 self.vel.y = -11
 
     def startScreen(self):
+        start_button_img = pygame.image.load('data/play.png').convert_alpha()
         background_img = pygame.image.load('data/background.png').convert()
         self.gameDisplay.blit(background_img, (0, 0))
-        self.messageToScreen("Sky Ascend", 60, black, display_width / 2, display_height / 2 - 50)
-        self.gameDisplay.blit(self.start_button_img, (display_width / 2 - self.start_button_img.get_width() / 2,
-                                                       display_height / 2))
-        self.messageToScreen("High Score: " + str(self.highscore), 25, black, display_width / 2, 35)
+        button_x = display_width / 2 - start_button_img.get_width() / 2
+        button_y = display_height / 2
+        self.gameDisplay.blit(start_button_img, (button_x, button_y))
+        play_text_y = button_y + start_button_img.get_height() + 20
+        self.messageToScreen("Play", 60, white, display_width / 2, play_text_y)
+        highest_score_text_y = play_text_y + 50
+        self.messageToScreen("Highest Score: " + str(self.highscore), 45, white, display_width / 2,
+                             highest_score_text_y)
         pygame.display.update()
         self.waitForStart()
 
@@ -284,28 +289,30 @@ class Game:
         g.run()
 
     def gameOverScreen(self):
-        background_img = pygame.image.load('data/background.png').convert()
-        play_again_button_img = pygame.image.load('data/play-again-on.png').convert_alpha()
-        self.gameDisplay.blit(background_img, (0, 0))
-        self.messageToScreen("OOPS!...GAME-OVER", 40, black, display_width / 2, 180)
-        self.messageToScreen("Score : " + (str)(self.score), 40, black, display_width / 2, display_height / 2 - 100)
-        self.gameDisplay.blit(play_again_button_img,
-                              (display_width / 2 - play_again_button_img.get_width() / 2, display_height / 2 + 50))
+        background2_img = pygame.image.load('data/background2.jpg').convert()
+        start_button_img = pygame.image.load('data/play.png').convert_alpha()
+        self.gameDisplay.blit(background2_img, (0, 0))
+        self.messageToScreen("Score: " + (str)(self.score), 80,white, display_width / 2,
+                                 display_height / 2 - 50)
+        self.gameDisplay.blit(start_button_img,
+                              (display_width / 2 - start_button_img.get_width() / 2, display_height / 2 + 50))
+        button_y = display_height / 2
+        play_text_y = button_y + start_button_img.get_height() + 20
+        self.messageToScreen("Play Again", 60, white, display_width / 2, play_text_y+20)
 
         if self.score > self.highscore:
             self.highscore = self.score
-            self.messageToScreen("CONGRATULATIONS!!!  NEW HIGHEST SCORE!", 30, black, display_width / 2,
-                                 display_height / 2 - 30)
+            self.messageToScreen("CONGRATULATIONS!!!  NEW HIGHEST SCORE!", 30, white, display_width / 2,
+                                 display_height / 2 + 10)
             with open(path.join(self.dir, hs_file), 'w') as f:
                 f.write(str(self.score))
         else:
-            self.messageToScreen("Highest Score: " + str(self.highscore), 30, black, display_width / 2,
-                                 display_height / 2 - 30)
+            self.messageToScreen("Highest Score: " + str(self.highscore), 45, white, display_width / 2, display_height / 2)
 
         pygame.display.update()
-        self.waitForPlayAgain(play_again_button_img)
+        self.waitForPlayAgain(start_button_img)
 
-    def waitForPlayAgain(self, play_again_button_img):
+    def waitForPlayAgain(self, start_button_img):
         waiting = True
         while waiting:
             self.clock.tick(fps)
@@ -315,8 +322,8 @@ class Game:
                     self.gameExit = True
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_pos = pygame.mouse.get_pos()
-                    button_rect = play_again_button_img.get_rect(
-                        topleft=(display_width / 2 - play_again_button_img.get_width() / 2, display_height / 2 + 50))
+                    button_rect = start_button_img.get_rect(
+                        topleft=(display_width / 2 - start_button_img.get_width() / 2, display_height / 2 + 50))
                     if button_rect.collidepoint(mouse_pos):
                         waiting = False
                         self.gameOver = False
