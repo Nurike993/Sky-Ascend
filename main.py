@@ -221,7 +221,7 @@ class Game:
                 if event.key == pygame.K_SPACE:
                     self.jump()
                 if event.key == pygame.K_ESCAPE:
-                    self.pauseGame()  # Вызываем метод для паузы игры кнопкой Enter
+                    self.pauseGame()  # Вызываем метод для паузы игры кнопкой Esc
 
     def pauseGame(self):
         paused = True
