@@ -1,23 +1,22 @@
 import pygame
 from settings import *
 from spritesheets import *
-from random import choice,randrange
+from random import choice, randrange
 from powerup import *
 
 class Platform(pygame.sprite.Sprite):
-    def __init__(self,game):
+    def __init__(self, game):
         pygame.sprite.Sprite.__init__(self)
-        self.game=game
+        self.game = game
 
-
-    def getPlatform(self,x,y,images):
+    def getPlatform(self, x, y, images):
         self.image = choice(images)
         self.image.set_colorkey(black)
-        self.rect=self.image.get_rect()
-        self.rect.x=x
-        self.rect.y=y
-        if randrange(100)<power_up_spawn_freq:
-            PowerUps(self,self.game)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        if randrange(100) < power_up_spawn_freq:
+            PowerUps(self, self.game)
 
     def getImages(self):
         self.spritesheetsobj = SpriteSheet()

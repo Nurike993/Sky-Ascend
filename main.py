@@ -245,13 +245,13 @@ class Game:
     def jump(self):
         # Мы проверяем, стоит ли спрайт игрока на платформе или нет.
         if self.vel.y > 0:
-            # Увеличиваем область детекции столкновений на 10 пикселей вниз.
-            self.img_pikachu.rect.y += 10
+            # Увеличиваем область детекции столкновений на 11 пикселей вниз.
+            self.img_pikachu.rect.y += 11
             hits = pygame.sprite.spritecollide(self.img_pikachu, self.platforms, False)
-            self.img_pikachu.rect.y -= 10
+            self.img_pikachu.rect.y -= 11
             if hits:
                 self.jump_sound.play()
-                self.vel.y = -10
+                self.vel.y = -11
 
     def startScreen(self):
         background_img = pygame.image.load('data/background.png').convert()
