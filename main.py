@@ -54,6 +54,7 @@ class Game:
         self.platforms.add(p4)
         self.platforms.add(p5)
         self.score=0
+        self.count = 0
         self.font_name=pygame.font.match_font(Font_Name)
         self.load_data()
         self.enemies_timer=0
@@ -159,6 +160,10 @@ class Game:
 
         for x in self.powerups: #обновление позиции спрайтов
             x.update()
+
+        if self.score == 5000 and self.count == 0:
+            self.game_Completed()
+            self.count += 1
 
         self.gameDisplay.fill(black)
         self.enemies.update()
@@ -346,6 +351,45 @@ class Game:
                     self.gameExit = False
         g.__init__()
         g.run()
+
+    def game_Completed(self):
+        background_img = pygame.image.load('data/background.png').convert()
+        play_button_img = pygame.image.load('data/play.png').convert_alpha()
+        button_x = display_width / 2 - play_button_img.get_width() / 2
+        button_y = display_height / 2
+        play_text_y = button_y + play_button_img.get_height() + 20
+
+        waiting = True
+        while waiting:
+            self.gameDisplay.blit(background_img, (0, 0))
+            font = pygame.font.SysFont(None, 33)
+            congrats_text = font.render("CONGRATULATIONS!!!", True, (255, 255, 255))
+            completed_text = font.render("The game has been successfully completed!", True, (255, 255, 255))
+            congrats_text_rect = congrats_text.get_rect(
+                center=(display_width / 2, display_height / 4 + 130))
+            completed_text_rect = completed_text.get_rect(
+                center=(display_width / 2, display_height / 4 + 160))
+            self.gameDisplay.blit(congrats_text, congrats_text_rect)
+            self.gameDisplay.blit(completed_text, completed_text_rect)
+            self.gameDisplay.blit(play_button_img, (button_x, button_y))
+            self.messageToScreen("Continue", 60, white, display_width / 2, play_text_y)
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    waiting = False
+                    self.gameExit = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    mouse_pos = pygame.mouse.get_pos()
+                    button_rect = pygame.Rect(display_width / 2 - play_button_img.get_width() / 2,
+                                              display_height / 2,
+                                              play_button_img.get_width(),
+                                              play_button_img.get_height())
+                    if button_rect.collidepoint(mouse_pos):
+                        waiting = False
+
+        # Продолжаем игру
+        pygame.display.update()
 
 
 g=Game()
