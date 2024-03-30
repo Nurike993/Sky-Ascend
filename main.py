@@ -152,7 +152,7 @@ class Game:
             for sprite in self.platforms:
                 sprite.rect.y-=max(self.vel.y,10)
 
-        #Создание новы  х платформ
+        #Создание новых платформ
         while len(self.platforms)<6:#На экране должно быть не менее 6 платформ.
             width=random.randrange(50,100)
             p = Platform(self)
