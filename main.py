@@ -223,16 +223,36 @@ class Game:
                     self.pauseGame()  # Вызываем метод для паузы игры кнопкой Esc
 
     def pauseGame(self):
-        paused = True
-        self.messageToScreen("Paused", 40, black, display_width / 2, display_height / 2)
+        background_img = pygame.image.load('data/background.png').convert()
+        play_button_img = pygame.image.load('data/play.png').convert_alpha()
+        # Отображаем фон и кнопку Play
+        self.gameDisplay.blit(background_img, (0, 0))
+        self.messageToScreen("Score: " + (str)(self.score), 80, white, display_width / 2,
+                             display_height / 2 - 50)
+        button_x = display_width / 2 - play_button_img.get_width() / 2
+        button_y = display_height / 2
+        self.gameDisplay.blit(play_button_img, (button_x, button_y))
+        play_text_y = button_y + play_button_img.get_height() + 20
+        self.messageToScreen("Continue", 60, white, display_width / 2, play_text_y)
         pygame.display.update()
-        while paused:
+
+        # Ждем нажатия кнопки Play
+        waiting = True
+        while waiting:
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        paused = False
-                        self.messageToScreen("Paused", 40, black, display_width / 2, display_height / 2)
-                        pygame.display.update()
+                if event.type == pygame.QUIT:
+                    waiting = False
+                    self.gameExit = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    mouse_pos = pygame.mouse.get_pos()
+                    button_rect = pygame.Rect(display_width / 2 - play_button_img.get_width() / 2,
+                                              display_height / 2,
+                                              play_button_img.get_width(),
+                                              play_button_img.get_height())
+                    if button_rect.collidepoint(mouse_pos):
+                        waiting = False
+        # Продолжаем игру
+        pygame.display.update()
 
     def messageToScreen(self,msg,size, color, x, y):
         font=pygame.font.Font(self.font_name,size)
