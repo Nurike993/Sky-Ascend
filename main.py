@@ -243,7 +243,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     waiting = False
                     self.gameExit = True
-                elif event.type == pygame.MOUSEBUTTONUP:
+                elif event.type == pygame.MOUSEBUTTONUP or event.type == pygame.KEYDOWN:
                     mouse_pos = pygame.mouse.get_pos()
                     button_rect = pygame.Rect(display_width / 2 - play_button_img.get_width() / 2,
                                               display_height / 2,
@@ -295,18 +295,11 @@ class Game:
                 if event.type == pygame.QUIT:
                     waiting = False
                     self.gameExit = True
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    mouse_pos = pygame.mouse.get_pos()
-                    button_rect = pygame.Rect(display_width / 2 - self.start_button_img.get_width() / 2,
-                                              display_height / 2,
-                                              self.start_button_img.get_width(),
-                                              self.start_button_img.get_height())
-                    if button_rect.collidepoint(mouse_pos):
-                        waiting = False
-                        self.gameOver = False
-                        self.gameExit = False
+                elif event.type == pygame.MOUSEBUTTONUP or event.type == pygame.KEYDOWN:
+                    waiting = False
+                    self.gameOver = False
+                    self.gameExit = False
         g.run()
-
     def gameOverScreen(self):
         background2_img = pygame.image.load('data/background2.jpg').convert()
         start_button_img = pygame.image.load('data/play.png').convert_alpha()
@@ -347,6 +340,10 @@ class Game:
                         waiting = False
                         self.gameOver = False
                         self.gameExit = False
+                if event.type == pygame.KEYDOWN:
+                    waiting = False
+                    self.gameOver = False
+                    self.gameExit = False
         g.__init__()
         g.run()
 
