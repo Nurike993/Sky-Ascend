@@ -83,6 +83,7 @@ class Game:
         self.jump_sound.set_volume(0.1)
         self.pow_sound = pygame.mixer.Sound(path.join(self.sound_dir,'springshoes-arcade.mp3'))
         self.falling_sound = pygame.mixer.Sound(path.join(self.sound_dir,'falling-sound-arcade.mp3'))
+        self.win_sound =  pygame.mixer.Sound(path.join(self.sound_dir,'win.mp3'))
 
     def updateScreen(self):
         if self.vel.x < 0:  #Движение влево
@@ -151,7 +152,7 @@ class Game:
             for sprite in self.platforms:
                 sprite.rect.y-=max(self.vel.y,10)
 
-        #Создание новх платформ
+        #Создание новы  х платформ
         while len(self.platforms)<6:#На экране должно быть не менее 6 платформ.
             width=random.randrange(50,100)
             p = Platform(self)
@@ -353,6 +354,7 @@ class Game:
         g.run()
 
     def game_Completed(self):
+        self.win_sound.play()
         background_img = pygame.image.load('data/background.png').convert()
         play_button_img = pygame.image.load('data/play.png').convert_alpha()
         button_x = display_width / 2 - play_button_img.get_width() / 2
