@@ -7,8 +7,8 @@ class PowerUps(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.plat = platform
-        self.image_normal = pygame.image.load('data/spring.png').convert_alpha()
-        self.image_comp = pygame.image.load('data/spring_comp.png').convert_alpha()
+        self.image_normal = pygame.image.load('doodler-pirate/data/spring.png').convert_alpha()
+        self.image_comp = pygame.image.load('doodler-pirate/data/spring_comp.png').convert_alpha()
         self.image = self.image_normal
         self.image = pygame.transform.scale(self.image, (133//6, 160//6))
         self.rect = self.image.get_rect()

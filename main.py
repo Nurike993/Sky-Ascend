@@ -17,13 +17,13 @@ class Game:
         pygame.display.set_caption("Sky Ascend")
         self.clock = pygame.time.Clock()
         self.img_pikachu=pygame.sprite.Sprite()
-        self.img_pikachuR = pygame.image.load('data/pikachu_Right.png').convert_alpha()
-        self.img_pikachuL = pygame.image.load('data/pikachu_Left.png').convert_alpha()
-        self.start_button_img = pygame.image.load('data/play.png').convert_alpha()
+        self.img_pikachuR = pygame.image.load('doodler-pirate/data/Idle-5frm.png').convert_alpha()
+        self.img_pikachuL = pygame.image.load('doodler-pirate/data/Idle-5frm.png').convert_alpha()
+        self.start_button_img = pygame.image.load('doodler-pirate/data/play.png').convert_alpha()
         self.img_pikachu.image = self.img_pikachuR
         self.img_pikachu.rect = self.img_pikachu.image.get_rect()
         self.img_pikachu.rect=self.img_pikachu.image.get_rect()
-        self.background = pygame.image.load('data/blue_back.jpg').convert()
+        self.background = pygame.image.load('doodler-pirate/data/blue_back.jpg').convert()
         self.font = pygame.font.SysFont(None, 25)
         self.gameExit = False
         self.pos=vec(display_width-100,display_height)
@@ -72,7 +72,7 @@ class Game:
                 self.highscore = 0
 
         # загрузка облаков
-        cloud_dir = path.join(self.dir, 'data/clouds_img')
+        cloud_dir = path.join(self.dir, 'data\clouds_img')
         self.cloud_images=[]
         for i in range(1,4):
             self.cloud_images.append(pygame.image.load(path.join(cloud_dir,'cloud{}.png'.format(i))).convert())
@@ -87,7 +87,7 @@ class Game:
 
     def updateScreen(self):
         if self.vel.x < 0:  #Движение влево
-            self.img_pikachu.image = self.img_pikachuL
+            self.img_pikachu.image = pygame.transform.flip(self.img_pikachuL, True, False)
         else:  # Движение вправо
             self.img_pikachu.image = self.img_pikachuR
         now_time=pygame.time.get_ticks()
@@ -162,7 +162,7 @@ class Game:
         for x in self.powerups: #обновление позиции спрайтов
             x.update()
 
-        if self.score == 5000 and self.count == 0:
+        if self.score == 500 and self.count == 0:
             self.game_Completed()
             self.count += 1
 
@@ -229,8 +229,8 @@ class Game:
                     self.pauseGame()  # Вызываем метод для паузы игры кнопкой Esc
 
     def pauseGame(self):
-        background_img = pygame.image.load('data/background.png').convert()
-        play_button_img = pygame.image.load('data/play.png').convert_alpha()
+        background_img = pygame.image.load('doodler-pirate/data/background.png').convert()
+        play_button_img = pygame.image.load('doodler-pirate/data/play.png').convert_alpha()
         # Отображаем фон и кнопку Play
         self.gameDisplay.blit(background_img, (0, 0))
         self.messageToScreen("Score: " + (str)(self.score), 80, white, display_width / 2,
@@ -279,8 +279,8 @@ class Game:
                 self.vel.y = -11
 
     def startScreen(self):
-        start_button_img = pygame.image.load('data/play.png').convert_alpha()
-        background_img = pygame.image.load('data/background.png').convert()
+        start_button_img = pygame.image.load('doodler-pirate/data/play.png').convert_alpha()
+        background_img = pygame.image.load('doodler-pirate/data/background.png').convert()
         self.gameDisplay.blit(background_img, (0, 0))
         button_x = display_width / 2 - start_button_img.get_width() / 2
         button_y = display_height / 2
@@ -307,8 +307,8 @@ class Game:
                     self.gameExit = False
         g.run()
     def gameOverScreen(self):
-        background2_img = pygame.image.load('data/background2.jpg').convert()
-        start_button_img = pygame.image.load('data/play.png').convert_alpha()
+        background2_img = pygame.image.load('doodler-pirate/data/background2.jpg').convert()
+        start_button_img = pygame.image.load('doodler-pirate/data/play.png').convert_alpha()
         self.gameDisplay.blit(background2_img, (0, 0))
         self.messageToScreen("Score: " + (str)(self.score), 80,white, display_width / 2,
                                  display_height / 2 - 50)
@@ -355,8 +355,8 @@ class Game:
 
     def game_Completed(self):
         self.win_sound.play()
-        background_img = pygame.image.load('data/background.png').convert()
-        play_button_img = pygame.image.load('data/play.png').convert_alpha()
+        background_img = pygame.image.load('doodler-pirate/data/background.png').convert()
+        play_button_img = pygame.image.load('doodler-pirate/data/play.png').convert_alpha()
         button_x = display_width / 2 - play_button_img.get_width() / 2
         button_y = display_height / 2
         play_text_y = button_y + play_button_img.get_height() + 20
